@@ -21,12 +21,14 @@ This project is designed as a learning + portfolio backend service to showcase r
 * Clean project separation inside a single solution
 
 The solution contains:
+```
 ReactiveMicroservices.sln
 │
 ├── Producer.API
 ├── Consumer.Worker
 ├── Shared.Messages
 └── Infrastructure.Messaging
+```
 
 ## 🏗️ Architecture
 
