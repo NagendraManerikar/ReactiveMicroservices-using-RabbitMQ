@@ -1,21 +1,22 @@
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+using System.Globalization;
 using System.Text;
 using System.Text.Json;
+using Infrastructure.Messaging;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using Shared.Messages;
-using System.Globalization;
 
 namespace Consumer.Worker
 {
     public class ConsumerService : BackgroundService
     {
         private readonly ILogger<ConsumerService> _logger;
-        private readonly IConfiguration _configuration;
+        private readonly IConnectionProvider _provider;
 
-        public ConsumerService(ILogger<ConsumerService> logger, IConfiguration configuration)
+        public ConsumerService(ILogger<ConsumerService> logger, IConnectionProvider provider)
         {
             _logger = logger;
-            _configuration = configuration;
+            _provider = provider;
         }
 
         protected override async Task<Task> ExecuteAsync(CancellationToken stoppingToken)
@@ -26,13 +27,9 @@ namespace Consumer.Worker
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = _configuration["RabbitMQ:ConnectionString"]
-                    };
-
-                    using var connection = await factory.CreateConnectionAsync();
-                    using var channel = await connection.CreateChannelAsync();
+                    using var channel = await _provider
+                                        .GetConnection()
+                                        .CreateChannelAsync();                    
 
                     await channel.QueueDeclareAsync(
                         queue: "order-queue",
@@ -61,12 +58,12 @@ namespace Consumer.Worker
                         consumer: consumer);
 
                     await Task.Delay(1000, stoppingToken);
-                    
+
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogCritical($"Error occured: ", ex.Message);
+                _logger.LogCritical($"Error occured: "+ ex.Message);
                 Console.WriteLine(ex.Message);
             }
 
