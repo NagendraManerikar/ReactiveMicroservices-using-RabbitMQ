@@ -1,12 +1,12 @@
 # 🧩 Reactive Microservices with RabbitMQ using ASP.NET Core (.NET 8)
 This project demonstrates:
 
-Event-driven communication
-Asynchronous processing
-Loose coupling
-Independent scalability
-Message-based architecture
-Reactive service interaction
+**Event-driven communication**
+**Asynchronous processing**
+**Loose coupling**
+**Independent scalability**
+**Message-based architecture**
+**Reactive service interaction**
 
 This project is designed as a learning + portfolio backend service to showcase real-world backend engineering practices.
 
