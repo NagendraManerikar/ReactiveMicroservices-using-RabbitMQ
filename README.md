@@ -63,19 +63,38 @@ The consumer listens asynchronously and processes events independently.
 ## ⚙️ Running Locally
 
 ### 1. Clone repository
-
+```
 git clone https://github.com/NagendraManerikar/ReactiveMicroservices-using-RabbitMQ
+```
 
 ### 2. Start RabbitMQ
+```
+run following commands in cmd propmt
+cd C:\Program Files\RabbitMQ Server\rabbitmq_server-4.3.0\sbin
+rabbitmq-plugins enable rabbitmq_management
+browse and login to rabbitMq (guest/guest)
+```
 
 ### 3. Run Producer.API
+```
+dotnet run
+```
 
 ### 4. Run Consumer.Worker
+```
+dotnet run
+```
 
 ### 5. Call API endpoint:
+```
 POST /api/orders
+post the request using swagger
+```
 
 ### 6. Consumer receives and processes event
+```
+Observe the queue being created and processed in RabbitMq
+```
 
 ## 👨‍💻 Author
 
